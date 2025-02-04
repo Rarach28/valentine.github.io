@@ -1,40 +1,82 @@
-# Will You Be My Valentine?
+# Be My Valentine - Interaktivní Webová Aplikace
+## Tento soubor Byl opravdu vygenerován AI :()
+Tento projekt je interaktivní webová aplikace navržená k hravému pozvání na valentýnské rande. Uživatel postupně odpovídá na otázky a vybírá datum, jídlo a dezert. Výsledky se ukládají do Google Sheets pomocí Google Apps Script.
 
-Welcome to the "Will You Be My Valentine?" project, a playful and interactive way to ask that special someone the big question this Valentine's Day. Hosted as a GitHub Page, this project offers a unique blend of creativity and technology to make your Valentine's Day proposal unforgettable.
+---
 
-## Overview
+## 🏗 Struktura projektu
 
-"Will You Be My Valentine?" is a web-based application that presents users with the question "Will you be my valentine?" followed by two options: "Yes" and "No". What makes this project special is the interactive and engaging way it handles responses, especially if someone tries to click "No".
+```
+/project-root
+│-- index.html         # Úvodní stránka s otázkou „Will you be my Valentine?“
+│-- date.html          # Výběr data pro schůzku
+│-- food.html          # Výběr hlavního jídla
+│-- dessert.html       # Výběr dezertu
+│-- config.js          # Konfigurace API a dostupných možností jídel
+│-- googleAction.js    # Google Apps Script pro zpracování odpovědí
+│
+├── css/               # Složka pro styly
+│   ├── valentine.css
+│   ├── date.css
+│   ├── food.css
+│   ├── dessert.css
+│
+├── food/              # Obrázky pro výběr jídla
+│   ├── burger.jpg
+│   ├── sushi.jpeg
+│   ├── ...
+│
+└── willYouBeMyValentine.gif  # GIF s pejskem
+```
 
-## Features
+---
 
-- **Interactive Question**: The core of the project is the interactive Valentine's Day proposal.
-- **Responsive Design**: Crafted to look great on both desktop and mobile devices.
-- **Playful Interaction**: If the user attempts to click "No", watch out for a little surprise that might just sway their decision!
+## 🚀 Jak projekt spustit?
 
-## Technology
+1. **Stažení a spuštění**
+   ```bash
+   git clone https://github.com/your-repository.git
+   cd your-repository
+   open index.html
+   ```
 
-This project is built using simple yet powerful web technologies:
-- HTML
-- CSS
-- JavaScript
+2. **Nastavení Google Sheets API**
+   - Vytvoř Google Sheets a přidej list s názvem `Responses`
+   - Otevři Apps Script (`Extensions > Apps Script`)
+   - Nahraj `googleAction.js`, uprav `SpreadsheetApp.openById()` podle svého Sheet ID
+   - Publikuj skript jako Web App (Deployment type: „Anyone“)
 
-## How to View
+3. **Konfigurace API URL**
+   - V `config.js` změň `API_URL` na URL publikovaného Google Apps Scriptu
 
-To experience "Will You Be My Valentine?", simply visit [https://byquangthanh.github.io/valentine.github.io/](https://byquangthanh.github.io/valentine.github.io/) from any modern web browser.
+---
 
-## How to Contribute
+## 🎨 Funkce
 
-Contributions to the "Will You Be My Valentine?" project are more than welcome. Whether it's suggesting new features, improving the design, or fixing bugs, here's how you can contribute:
+✅ **Hravý začátek** – Uživatel nemůže odmítnout, protože tlačítko „Ano“ se zvětšuje 🥰
 
-1. **Fork the Repository**: Start by forking the [project repository](https://github.com/byquangthanh/valentine.github.io) on GitHub.
-2. **Clone Your Fork**: Clone your fork to your local machine for development.
-3. **Create a New Branch**: Make a new branch for your changes.
-4. **Make Your Changes**: Implement your feature, fix, or improvement.
-5. **Commit Your Changes**: Commit your changes with a clear and descriptive commit message.
-6. **Push to Your Fork**: Push your changes up to your fork.
-7. **Open a Pull Request**: Back on GitHub, open a pull request from your fork to the main project.
+✅ **Výběr termínu** – Formulář pro výběr dne rande
 
-## Support
+✅ **Výběr jídla a dezertu** – Možnost vybrat si oblíbené jídlo a dezert
 
-If you encounter any issues or have questions about the project, feel free to open an issue on the GitHub repository.
+✅ **Google Sheets integrace** – Odpovědi se ukládají do Google tabulky
+
+✅ **Přizpůsobitelnost** – Snadno přidáš vlastní možnosti jídla/dezertu v `config.js`
+
+---
+
+## 🔧 Jak upravit projekt pro vlastní potřeby?
+
+- **Změna otázek** → Uprav texty v `.html` souborech
+- **Přidání jídel** → Přidej nové položky do `FOOD_OPTIONS` a `DESSERT_OPTIONS` v `config.js`
+- **Vlastní styl** → Uprav `.css` soubory podle svého vkusu
+- **Změna API backendu** → Nahraď Google Sheets vlastní databází
+
+---
+
+## 📌 Poznámky
+
+- Projekt byl testován v moderních prohlížečích (Chrome, Firefox)
+- Pro správnou funkčnost Google Apps Scriptu musí být skript veřejný
+- Vhodné pro romantická pozvání nebo interaktivní dotazníky 🥰
+
