@@ -16,8 +16,21 @@
       Your browser does not support the audio element.
     </audio>
     <h1>Don't go yet!</h1>
-    <button class="button" onclick="location.href='date.html'">
-      Click me UWU
-    </button>
+    <button class="button" id="dateButton">Click me UWU</button>
+    <div id="spinner" style="display: none;">
+      <div id="loader"></div>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const pookie = params.get("pookie") || "Unknown";
+      
+      document.getElementById("dateButton").addEventListener("click", function() {
+        document.getElementById("spinner").style.display = "block";
+        setTimeout(() => {
+          window.location.href = `date.html?pookie=${encodeURIComponent(pookie)}`;
+        }, 1000);
+      });
+    </script>
   </body>
 </html>
