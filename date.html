@@ -5,17 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Date</title>
     <link rel="stylesheet" href="css/date.css" />
+    <script src="config.js" defer></script>
   </head>
   <body>
-    <h1 title="choose a date">Are you free on ...</h1>
-    <form class="form-group">
-      <label>Which day: (select a date)</label>
+    <h1 title="choose a date">Kdy máš čas...</h1>
+    <form class="form-group" onsubmit="submitDate(event)">
+      <label>Který den: (Vyber datum)</label>
       <div>
-        <input type="date" />
-        <button class="button" type="submit" formaction="food.html">
-          Submit
-        </button>
+        <input type="date" id="dateInput" min="2025-02-14" required />
+        <button class="button" type="submit">Závazně potvrzuji</button>
+        <div id="spinner" style="display: none;">
+          <span id="loader"></span>
+        </div>
       </div>
     </form>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const pookie = params.get("pookie") || "Unknown";
+      
+      function formatDate(isoDate) {
+        let [year, month, day] = isoDate.split("-");
+        return `${day}.${month}.${year}`;
+      }
+      
+      function submitDate(event) {
+        document.getElementById("spinner").style.display = "block";
+        event.preventDefault();
+        const dateInput = document.getElementById("dateInput").value;
+        if (!dateInput) return;
+
+        const formattedDate = formatDate(dateInput);
+        const webAppUrl = CONFIG.API_URL;
+        
+        fetch(webAppUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `pookie=${encodeURIComponent(pookie)}&date=${encodeURIComponent(formattedDate)}`
+        }).then(response => {
+          if (response.ok) {
+            window.location.href = `food.html?pookie=${encodeURIComponent(pookie)}`;
+          } else {
+            alert("Error saving date.");
+          }
+        });
+      }
+    </script>
   </body>
 </html>

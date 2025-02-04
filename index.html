@@ -8,25 +8,24 @@
   </head>
   <body>
     <div id="valentineQuestion"><b>Will you be my valentine?</b></div>
-    <button class="answerButton" onclick="location.href='thankyou.html'">
-      Yes
-    </button>
-    <button class="answerButton" id="noButton">I no no wanna o(╥﹏╥)o</button>
+    <button class="answerButton" id="yesButton">ANOO</button>
+    <button class="answerButton" id="noButton">Ne, ewww o(╥﹏╥)o</button>
     <br />
-    <img src="cat.gif" alt="cat asking question" class="responsive" />
-
+    <img src="willYouBeMyValentine.gif" alt="Dashund asking question" class="responsive" />
+    
     <script>
-      document
-        .getElementById("noButton")
-        .addEventListener("click", function () {
-          var yesButton = document.querySelector(
-            'button[onclick*="thankyou.html"]'
-          );
-          var currentFontSize = parseInt(
-            window.getComputedStyle(yesButton).fontSize
-          );
-          yesButton.style.fontSize = currentFontSize + 10 + "px"; // Increase font size by 5px
-        });
+      const params = new URLSearchParams(window.location.search);
+      const pookie = params.get("pookie") || "Unknown";
+      
+      document.getElementById("yesButton").addEventListener("click", function() {
+        window.location.href = `date.html?pookie=${encodeURIComponent(pookie)}`;
+      });
+      
+      document.getElementById("noButton").addEventListener("click", function () {
+        var yesButton = document.getElementById("yesButton");
+        var currentFontSize = parseInt(window.getComputedStyle(yesButton).fontSize);
+        yesButton.style.fontSize = (currentFontSize + 90) + "px";
+      });
     </script>
   </body>
 </html>

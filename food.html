@@ -3,62 +3,91 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Food Selection</title>
+    <title>Jídlos</title>
     <link rel="stylesheet" href="css/food.css" />
+    <script src="config.js" defer></script>
   </head>
   <body>
     <div id="foodquestion">
-      <b>What food would you like to eat?</b>
+      <b>Na co bys měla chuť</b>
     </div>
 
-    <div class="food-selection">
-      <div class="food-item">
-        <img src="food/burgers.jpeg" alt="Burgers, fries and fried chicken" />
-        <label
-          ><input
-            type="checkbox"
-            name="food"
-            value="Burgers, fries and fried chicken"
-          />
-          burgers and fried chicken</label
-        >
+    <form id="foodForm" onsubmit="submitFood(event)">
+      <div class="food-selection" id="foodSelection">
+        <!-- Food items here -->
       </div>
-      <div class="food-item">
-        <img src="food/dog.jpeg" alt="dog" />
-        <label
-          ><input type="checkbox" name="food" value="hotdog" /> hotdog</label
-        >
+      <button class="button" type="submit">Pokračuj UwU</button>
+      <div id="spinner" style="display: none;">
+        <span id="loader"></span>
       </div>
-      <div class="food-item">
-        <img src="food/koreanfood.jpeg" alt="koreanfood" />
-        <label
-          ><input type="checkbox" name="food" value="Korean food" /> korean
-          food</label
-        >
-      </div>
-      <div class="food-item">
-        <img src="food/pasta.jpeg" alt="pasta" />
-        <label><input type="checkbox" name="food" value="pasta" /> pasta</label>
-      </div>
-      <div class="food-item">
-        <img src="food/pizza.jpeg" alt="pizza" />
-        <label><input type="checkbox" name="food" value="pizza" /> pizza</label>
-      </div>
-      <div class="food-item">
-        <img src="food/salad.jpeg" alt="salad" />
-        <label><input type="checkbox" name="food" value="salad" /> salad</label>
-      </div>
-      <div class="food-item">
-        <img src="food/steak.jpeg" alt="steak" />
-        <label><input type="checkbox" name="food" value="steak" /> steak</label>
-      </div>
-      <div class="food-item">
-        <img src="food/sushi.jpeg" alt="sushi" />
-        <label><input type="checkbox" name="food" value="sushi" /> sushi</label>
-      </div>
-    </div>
-    <button class="button" onclick="location.href='dessert.html'">
-      Continue UWU
-    </button>
+    </form>
+
+    <script>
+      function populateFoodSelection() {
+        const foodSelectionContainer = document.getElementById("foodSelection");
+        CONFIG.FOOD_OPTIONS.forEach(food => {
+          const foodItemDiv = document.createElement("div");
+          foodItemDiv.classList.add("food-item");
+
+          const imgElement = document.createElement("img");
+          imgElement.src = food.image;
+          imgElement.alt = food.name;
+
+          const labelElement = document.createElement("label");
+          const checkboxInput = document.createElement("input");
+          checkboxInput.type = "checkbox";
+          checkboxInput.name = "food";
+          checkboxInput.value = food.name;
+
+          labelElement.appendChild(checkboxInput);
+          labelElement.appendChild(document.createTextNode(food.name));
+
+          foodItemDiv.appendChild(imgElement);
+          foodItemDiv.appendChild(labelElement);
+
+          foodSelectionContainer.appendChild(foodItemDiv);
+        });
+      }
+
+      function getPersonFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("pookie") || "Unknown";
+      }
+
+      function submitFood(event) {
+        event.preventDefault();
+        document.getElementById("spinner").style.display = "block";
+        const personName = getPersonFromUrl();
+
+        const selectedFoods = Array.from(document.querySelectorAll('input[name="food"]:checked'))
+          .map(input => input.value)
+          .join(", ");
+
+        if (!selectedFoods) {
+          alert("Laskavě si vyber alespoň jednu věc !!!");
+          return;
+        }
+
+        const webAppUrl = CONFIG.API_URL;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", webAppUrl, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              window.location.href = "dessert.html?pookie=" + encodeURIComponent(personName);
+            } else {
+              alert("Error saving food choices.");
+            }
+          }
+        };
+
+        xhr.send(`pookie=${encodeURIComponent(personName)}&food=${encodeURIComponent(selectedFoods)}`);
+      }
+
+      window.onload = populateFoodSelection;
+    </script>
   </body>
 </html>
